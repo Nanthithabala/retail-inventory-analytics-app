@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Retail Inventory Recommendation System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            color: #1e293b;
+        }
+
+        .header {
+            background: #172554;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            margin-top: 0;
+            color: #172554;
+            font-size: 21px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 22px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        select {
+            width: 100%;
+            padding: 13px;
+            margin-top: 9px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #172554;
+        }
+
+        button {
+            margin-top: 18px;
+            padding: 13px 25px;
+            background: #172554;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1e3a8a;
+        }
+
+        .result {
+            display: flex;
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .metric {
+            flex: 1;
+            background: #f8fafc;
+            padding: 22px 15px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .metric h3 {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .metric p {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 10px 0 0;
+            color: #172554;
+        }
+
+        .recommendation {
+            margin-top: 22px;
+            padding: 22px;
+            border-radius: 10px;
+            background: #eef2ff;
+            border-left: 5px solid #172554;
+        }
+
+        .recommendation h2 {
+            margin-top: 0;
+            font-size: 19px;
+            color: #172554;
+        }
+
+        .recommendation p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #172554;
+            margin-bottom: 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                width: 92%;
+            }
+
+            .result {
+                flex-direction: column;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Retail Inventory Recommendation System</h1>
+        <p>Inventory-based reorder decision support</p>
+    </div>
+
+
+    <div class="container">
+
+        <!-- Product Selection -->
+        <div class="card">
+
+            <h2 class="card-title">Product Recommendation</h2>
+
+            <p class="subtitle">
+                Select a product to evaluate its current inventory position.
+            </p>
+
+            <form method="POST">
+
+                <label>Select Product</label>
+
+                <select name="product" required>
+
+                    <option value="">Select a product</option>
+
+                    {% for product in products %}
+                        <option value="{{ product }}">{{ product }}</option>
+                    {% endfor %}
+
+                </select>
+
+                <button type="submit">
+                    Get Recommendation
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- Inventory Summary -->
+        <div class="card">
+
+            <h2 class="card-title">Inventory Summary</h2>
+
+            <p class="subtitle">
+                Current inventory position and demand outlook
+            </p>
+
+            <div class="result">
+
+                <div class="metric">
+                    <h3>Current Stock</h3>
+                    <p>
+                        {{ current_stock if current_stock is not none else '--' }}
+                    </p>
+                </div>
+
+
+                <div class="metric">
+                    <h3>Forecasted Demand</h3>
+                    <p>
+                        {{ forecast_demand if forecast_demand is not none else '--' }}
+                    </p>
+                </div>
+
+
+                <div class="metric">
+                    <h3>Stock Status</h3>
+                    <p>
+                        {{ stock_status if stock_status else '--' }}
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- Recommendation -->
+            <div class="recommendation">
+
+                <h2>Recommendation</h2>
+
+                <p>
+                    {{ recommendation if recommendation else 'Select a product to view the recommended action.' }}
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        Retail Inventory Analytics &nbsp;|&nbsp; Decision Support System
+    </div>
+
+</body>
+</html>
